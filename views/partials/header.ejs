@@ -20,3 +20,14 @@
         <hr>
         <a href="/connections" id="connections">Connections</a>
     </header>
+
+    <%if(errorMessages.length > 0) {%>
+        <%errorMessages.forEach(message => {%>
+            <div class='error'><%= message %></div>
+        <%});%>
+    <%}%>
+    <%if(successMessages.length > 0) {%>
+        <%successMessages.forEach(message => {%>
+            <div class='success'><%= message %></div>
+        <%});%>
+    <%}%>
