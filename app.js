@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const methodOverride = require('method-override');
 const connectionRoutes = require('./routes/connectionRoutes');
 const generalRoutes = require('./routes/generalRoutes');
+const mongoose = require('mongoose');
 
 //create app
 const app = express();
@@ -12,6 +13,17 @@ const app = express();
 let port = 3000;
 let host = 'localhost';
 app.set('view engine', 'ejs');
+
+//Using mongoose to connect to database (local db server)
+mongoose.connect('mongodb://localhost:27017/appdevproject', {useNewUrlParser: true, useUnifiedTopology: true})
+.then(() => {
+    app.listen(port, host, ()=>{
+        console.log('Server is running on port', port);
+    })
+})
+.catch(err => console.log(err.message));
+
+
 
 //mount middleware
 app.use(express.static('public'));
@@ -43,9 +55,4 @@ app.use((err, req, res, next)=>{
 
     res.status(err.status);
     res.render('error', {error: err});
-});
-
-//start the server
-app.listen(port, host, ()=>{
-    console.log('Server up and running');
 });

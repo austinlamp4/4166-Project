@@ -1,8 +1,56 @@
 /*
 Author: Austin Lamp
-Date: 10/13/21; Last edited: 10/16/21
-Description: Contains all of the data to render web pages for the ejs templates. Also contains functionality to manipulate the data within the connectionController and the routing functions.
+Date: 10/13/21; Last edited: 11/04/21
+Description: Contains the set up of the schema & db for collections
 */
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+
+const connectionSchema = new Schema(
+    {
+        name:  {type: String, required: [true, 'Connection Name is required']},
+        category: {type: String, required: [true, 'Connection Category is required']},
+        details: {type: String, required: [true, 'Connection Details are required'],  minLength: [10, 'The content should have at least 10 characters']},
+        date: {type: String, required: [true, 'Connection Date is required']},
+        start_time: {type: String, required: [true, 'Start Time is required']},
+        end_time: {type: String, required: [true, 'End Time is required']},
+        host_name: {type: String, required: [true, 'Host Name is required']},
+        image: {type: String, required: [true, 'Image Path is required']}
+    }//,
+    //{timestamps: true}
+);
+
+/*
+Desc: The below function is a function that is used within an ejs file so the categories can be displayed in alphabetical order dynamically.
+Date: 11/04/21
+Author: C. Austin Lamp
+*/
+connectionSchema.statics.findCategories = function(connections) {
+    const categories = [];
+    for (let i = 0; i < connections.length; i++) {
+        if(!categories.includes(connections[i].category)) {
+            categories.push(connections[i].category);
+        }
+    }
+    return categories;
+};
+
+
+//Corresponding collection name needs to be lowercase and plural, aka connections.
+module.exports = mongoose.model('Connection', connectionSchema); //First arg is a name, and second is a schema
+
+
+
+
+
+
+
+
+
+
+
+/*
 const {v4: uuidv4} = require('uuid');
 
 const connections = [
@@ -191,3 +239,4 @@ exports.deleteById = function(id) {
         return false;
     }
 }
+*/
