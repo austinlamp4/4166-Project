@@ -1,7 +1,7 @@
 /*
 Author: Austin Lamp
-Date: 10/13/21; Last edited: 11/04/21
-Description: Contains the set up of the schema & db for collections
+Date: 10/13/21; Last edited: 11/19/21
+Description: Contains the set up of the schema & db for collections + Added creator for users who created said connection.
 */
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
@@ -16,7 +16,8 @@ const connectionSchema = new Schema(
         start_time: {type: String, required: [true, 'Start Time is required']},
         end_time: {type: String, required: [true, 'End Time is required']},
         host_name: {type: String, required: [true, 'Host Name is required']},
-        image: {type: String, required: [true, 'Image Path is required']}
+        image: {type: String, required: [true, 'Image Path is required']},
+        creator: {type: Schema.Types.ObjectId, ref:'User'}
     }//,
     //{timestamps: true}
 );

@@ -2,7 +2,6 @@ const model = require('../models/connection');
 
 //GET /connections: Sends all connections to the user
 exports.index = (req, res, next)=> {
-    //res.send('send all connections');
     model.find()
     .then(connections => {
         let categories = model.findCategories(connections);
@@ -19,9 +18,8 @@ exports.new = (req, res)=> {
 
 //POST /connections: Creates a new story from the form sent from /connections/new
 exports.create = (req, res)=> {
-    //res.send('Created a new story.');
     let connection = new model(req.body);
-
+    connection.creator = req.session.user;
     connection.save()
     .then((connection) => {
         res.redirect('/connections');
@@ -43,7 +41,7 @@ exports.show = (req, res, next)=> {
         return next(err);
     }
 
-    model.findById(id)
+    model.findById(id).populate('creator', 'firstName lastName') //This is for populating the creator field down the road.
     .then(connection => {
         if(connection) {
             return res.render('./connection/connection', {connection})

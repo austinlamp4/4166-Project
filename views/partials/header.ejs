@@ -13,11 +13,14 @@
         <a href="/"><img class="logo" src="/images/logo.png" alt="Oops! Error has occured!"></a>
         <div class="navigation-bar">
             <a href="/" class="links">Homepage</a> |
-            <a href="" class="links">Start a new connection</a> |
-            <a href="/users/login" class="links">Login</a> |
-            <a href="/users/new" class="links">Sign up</a> |
-            <a href='/users/profile' class="links">Profile</a> |
-            <a href='/users/logout' class="links">Logout</a>
+            <a href="/connections/new" class="links">Start a new connection</a> |
+            <%if(!user) {%>
+                <a href="/users/login" class="links">Login</a> |
+                <a href="/users/new" class="links">Sign up</a> |
+            <%} else {%>
+                <a href='/users/profile' class="links">Profile</a> |
+                <a href='/users/logout' class="links">Logout</a>
+            <%}%>
         </div>
         <hr>
         <a href="/connections" id="connections">Connections</a>
