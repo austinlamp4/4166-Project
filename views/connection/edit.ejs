@@ -1,0 +1,36 @@
+<%- include('../partials/header.ejs')%>
+<div class = "content">
+    <form method="POST" action="/connections/<%= connection.id%>?_method=PUT">
+        <table>
+            <tr>
+                <td><label for="name" >Name</label></td>
+                <td><input type="text" id="name" name="name" value = "<%= connection.name%>" class = "fixed-width"></td>
+            </tr>
+            <tr>
+                <td class = "align-top"><label for="details">details</label></td>
+                <td><textarea rows="5" id="details" name="details" class = "fixed-width"><%= connection.details%></textarea></td>
+            </tr>
+            <tr>
+                <td class = "align-top"><label for="date">date</label></td>
+                <td><textarea rows="5" id="date" name="date" class = "fixed-width"><%= connection.date%></textarea></td>
+            </tr>
+            <tr>
+                <td class = "align-top"><label for="start_time">Start Time</label></td>
+                <td><textarea rows="5" id="start_time" name="start_time" class = "fixed-width"><%= connection.start_time%></textarea></td>
+            </tr>
+            <tr>
+                <td class = "align-top"><label for="end_time">End Time</label></td>
+                <td><textarea rows="5" id="end_time" name="end_time" class = "fixed-width"><%= connection.end_time%></textarea></td>
+            </tr>
+            <tr>
+                <td class = "align-top"><label for="host_name">Host Name</label></td>
+                <td><textarea rows="5" id="host_name" name="host_name" class = "fixed-width"><%= connection.host_name%></textarea></td>
+            </tr>
+            <tr>
+                <td colspan="2" class = "align-right"><button>Submit</button></td>
+            </tr>
+            </table>        
+    </form>
+
+    </div>
+    <%- include('../partials/footer.ejs')%>

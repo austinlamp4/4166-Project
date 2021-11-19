@@ -1,0 +1,46 @@
+<%- include('../partials/header.ejs') %>
+
+    <main class="main-text">
+        <div class="outer-block">
+            <div class="inner"><h2 id="connection-title"><%=connection.name%></h2></div>
+            <div class="inner"></div>
+            <form>
+                <button id="button1" type="submit" formmethod="GET" formaction="/connections/<%= connection.id %>/edit">Update</button>
+                <button type="submit" formmethod="POST" formaction="/connections/<%=connection.id%>?_method=DELETE">Delete</button>
+            </form>
+        </div>
+        <img src="<%=connection.image%>" class="security-plus-img" alt="Oops, something went wrong!">
+        <div class="connection-details">
+            <%if (connection) {%>
+                <%if (connection.details.includes(";")) {%>
+                    <%var temp = connection.details.split(";");%>
+                    <%temp.forEach(block => {%>
+                        <p class="beside-image"><%=block%></p>
+                        <br>
+                    <%});%>
+                <%} else {%>
+                    <p class="beside-image"><%=connection.details%><br></p>
+                <%}%>
+
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <%if (connection.date === "") {%>
+                
+            <%} else {%>
+                <div class="details">
+                    <h3 id="connection-subtitle">Details:</h3>
+                    <p>Come out every <%=connection.date%> where this group will meet to discuss <%=connection.name%> from <br> <%=connection.start_time%> to <%=connection.end_time%>.
+                        This event is hosted by <%=connection.host_name%>.<br><br>
+                        For additional help, please contact us using the CONTACT button at the bottom of the screen.</p>
+                </div>
+            <%}%>
+        <%} else {%>
+            <p>No info!</p>
+        <%}%>
+        
+    </main>
+
+<%- include('../partials/footer.ejs') %>

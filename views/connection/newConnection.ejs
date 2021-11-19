@@ -1,0 +1,37 @@
+<%- include('../partials/header.ejs') %>
+    <h1 id="title">Create a new connection</h1>
+    <main class="main-text">
+        <form action ='/connections' method ='POST'>
+            <div class="inner">
+                <label for="category">Topic:</label>
+                <input type="text" id="category" name="category" placeholder="category">
+                <br>
+                <br>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Title"><br>
+                <br>
+                <label for="host_name">Host:</label>
+                <input type="text" id="host_name" name="host_name" placeholder="Host"><br>
+                <br>
+                <label for="details">Details:</label>
+                <input type="text" id="details" name="details" placeholder="details"><br>
+                <br>
+                <label for="date">When:</label>
+                <input type="date" id="date" name="date"><br>
+                <br>
+                <label for="start_time">Start:</label>
+                <input type="time" id="start_time" name="start_time"><br>
+                <br>
+                <label for="end_time">End:</label>
+                <input type="time" id="end_time" name="end_time"><br>
+                <br>
+                <label for="image">Image URL:</label>
+                <input type="text" id="image" name="image" placeholder="Image URL">
+            </div>
+            <br>
+            <br>
+            <br>
+            <input type="submit" class="submit-button">
+        </form>
+    </main>
+<%- include('../partials/footer.ejs') %>

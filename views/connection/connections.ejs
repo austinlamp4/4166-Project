@@ -1,0 +1,24 @@
+
+<%- include('../partials/header.ejs') %>
+    <h1 id="title">Current Events</h1>
+    <main class="main-text">
+        <%if(connections.length) {%>
+            <%connections.sort((a,b) => (a.category > b.category) ? 1 : -1);%>
+            <% used = []; %>
+            <%connections.forEach(connection=>{%>
+                <% if (!used.includes(connection.category)) {%>
+                    <%if(used.length != 0) {%>
+                        <br>
+                    <%}%>
+                    <h2><%= connection.category%></h2>
+                    <a href="connections/<%= connection.id%>" class="connection-links"><p><%= connection.name%></p></a>
+                    <%used.push(connection.category);%>
+                <%} else {%>
+                    <a href="connections/<%= connection.id%>" class="connection-links"><p><%= connection.name%></p></a>
+                <%}%>
+            <%});%>
+            <%} else {%>
+                <p>There are no connections to display</p>
+            <%}%>
+    </main>
+<%- include('../partials/footer.ejs') %>
