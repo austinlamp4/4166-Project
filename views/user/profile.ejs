@@ -1,3 +1,13 @@
 <%- include('../partials/header.ejs')%>
-<h2>Welcome, <%= user.firstName + " " + user.lastName%></h2>
+<main class="main-text">
+    <h2>Welcome,  <%= user.firstName + " " + user.lastName%></h2>
+    <%if(connections.length) {%>
+        <p>All of the stories detailed and linked below have been created by you, nice work!:</p>
+        <%connections.forEach(connection => {%>
+            <a href='/connections/<%=connection._id%>' id="profile-links"><p><%=connection.name%></p></a>
+        <%})%>
+    <%} else { %>
+        <p>You have not created any connections.</p>
+    <%}%>
+</main>
 <%- include('../partials/footer.ejs')%>

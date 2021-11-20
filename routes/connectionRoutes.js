@@ -7,29 +7,30 @@ Description: The following code is meant to be the 'router' for the web server, 
 const express = require('express');
 const connectionsRouter = express.Router();
 const connectionController = require('../controllers/connectionController');
+const {isLoggedIn, isCreator} = require('../middlewares/auth'); 
 
 /*The following are all going to be for the connectionController, specifically*/
 
 //GET /connections: Sends all connections to the user
-connectionsRouter.get('/', connectionController.index);
+connectionsRouter.get('/', connectionController.index); //anyone can view
 
 //GET /connections/new: send HTML form for creating a new connection
-connectionsRouter.get('/new', connectionController.new);
+connectionsRouter.get('/new', isLoggedIn, connectionController.new);
 
 //POST /connections: Creates a new story from the form sent from /stories/new
-connectionsRouter.post('/', connectionController.create);
+connectionsRouter.post('/', isLoggedIn, connectionController.create);
 
 //GET /connections/:id : Send details of story identified by id
-connectionsRouter.get('/:id', connectionController.show);
+connectionsRouter.get('/:id', connectionController.show); //anyone can view
 
 //GET /connections/:id/edit: send HTML form for editing an existing story with a specific id
-connectionsRouter.get('/:id/edit', connectionController.edit);
+connectionsRouter.get('/:id/edit', isLoggedIn, isCreator, connectionController.edit);
 
 //PUT /connections/:id : Update the story identified by id
-connectionsRouter.put('/:id', connectionController.update);
+connectionsRouter.put('/:id', isLoggedIn, isCreator, connectionController.update);
 
 //DELETE /connections/:id, delete the story identified by id
-connectionsRouter.delete('/:id', connectionController.delete);
+connectionsRouter.delete('/:id', isLoggedIn, isCreator, connectionController.delete);
 
 /*The following after this point are all going to be the general controller, specifically*/
 

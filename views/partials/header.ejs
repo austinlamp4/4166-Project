@@ -11,7 +11,10 @@
 
     <header>
         <a href="/"><img class="logo" src="/images/logo.png" alt="Oops! Error has occured!"></a>
-        <div class="navigation-bar">
+        <%if(firstName) {%>
+            <span id="hello-user">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hello, <%=firstName%> </span>
+        <%}%>
+        <div class="navigation-bar">  
             <a href="/" class="links">Homepage</a> |
             <a href="/connections/new" class="links">Start a new connection</a> |
             <%if(!user) {%>

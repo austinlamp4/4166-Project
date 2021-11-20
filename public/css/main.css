@@ -207,3 +207,14 @@ footer span {
     text-align: center;
     padding: 10px 10px;
   }
+
+#profile-links { 
+    text-decoration: none; 
+    color: black;
+    text-decoration: underline;
+}
+
+#hello-user {
+    text-align: center;
+    font-size: large;
+}

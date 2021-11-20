@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const User = require('./models/user');
 
 //create app
 const app = express();
@@ -40,7 +41,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false, //false -- if session has no data, doesn't store session and not sent to client side
     cookie:{maxAge: 60*60*1000}, //Cookie that lasts 1 hour (60 sec * 60 min * 1000 millisec/sec)
-    store: new MongoStore({mongoUrl: 'mongodb://localhost:27017/appdevproject'}) //can set an option name for collection to be named something other than sessions
+    store: new MongoStore({mongoUrl: 'mongodb://localhost:27017/appdevproject'}) //can set an option name for collection to be named something other than sessions\
 }));
 
 //Remember, flash after session middleware.
@@ -49,6 +50,7 @@ app.use(flash());
 app.use((req, res, next) => {
     //console.log(req.session);
     res.locals.user = req.session.user || null;
+    res.locals.firstName = req.session.firstName || null;
     res.locals.successMessages = req.flash('success');
     res.locals.errorMessages = req.flash('error');
     next();

@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const connection = require('../models/connection');
 
 exports.index = (req, res)=>{
     res.render('./index');
@@ -12,7 +13,6 @@ exports.new = (req, res) => {
 //POST Create a new user
 exports.create = (req, res, next) => {
     let user = new User(req.body);
-    console.log(user)
     user.save()
     .then(() => res.redirect('/users/login')) //this is sending us to login
     .catch(err => {
@@ -37,8 +37,11 @@ exports.login = (req, res) => { //processing requests to /login
 //get profile page
 exports.profile = (req, res, next) => {
     let id = req.session.user;
-    User.findById(id)
-    .then(user => res.render('./user/profile', {user}))
+    Promise.all([User.findById(id), connection.find({creator: id})])
+    .then(results => {
+        const [user, connections] = results; //Results gives us both the user and stories
+        res.render('./user/profile', {user, connections});
+    })
     .catch(err => next(err));
 };
 
@@ -67,6 +70,7 @@ exports.logon = (req, res, next) => {//if you send a post request to /login
             .then(result => {
                 if(result) {
                     req.session.user = user._id; //Storing the user's ID in the session
+                    req.session.firstName = user.firstName;
                     //The above allows for the user to browse to other pages and we know who it is.
 
                     req.flash('success', 'You have successfully logged in!');

@@ -1,6 +1,6 @@
 /*
 Author: Austin Lamp
-Date: 10/13/2021
+Date: 10/13/2021 last edited: 11/19/21
 Description: The following is a router for the general pages, which include the homepage, the about page, and the contact page, all of which can be found on the header
 and the footer.
 */
