@@ -32,23 +32,27 @@ exports.create = (req, res, next)=> {
 };
 
 //GET /connections/:id : Send details of story identified by id
-exports.show = (req, res, next)=> {
+exports.show = (req, res, next)=>{
     let id = req.params.id;
-    if(!id.match(/^[0-9a-fA-F]{24}$/)) { //Regular expression to ensure 0-9, a-z, or A-Z and 24 digits
-        let err = new Error("Invalid story id");
+
+    if(!id.match(/^[0-9a-fA-F]{24}$/)) {
+        console.log(id);
+        console.log(req.params);
+        console.log(req);
+        let err = new Error('Invalid connection id');
         err.status = 400;
+        req.flash('error', err.message);
         return next(err);
     }
 
-    console.log(id);
 
-    model.findById(id).populate('creator', 'firstName lastName') //This is for populating the creator field down the road.
-    .then(connection => {
+    model.findById(id).populate('creator', 'firstName lastName')
+    .then(connection=>{
         if(connection) {
-            return res.render('./connection/connection', {connection})
+            return res.render('./connection/connection', {connection});
         } else {
-            let err = new Error('Cannot find a connnection with id ' + id);
-            err.status = 400;
+            let err = new Error('Cannot find a connection with id ' + id);
+            err.status = 404;
             next(err);
         }
     })

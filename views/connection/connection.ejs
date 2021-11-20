@@ -5,7 +5,7 @@
             <div class="inner"><h2 id="connection-title"><%=connection.name%></h2></div>
             <div class="inner"></div>
             <%if(connection.creator) {%>
-                <%if(user == connection.creator.id) {%>
+                <%if(user == connection.creator._id) {%>
                     <form>
                         <button id="button1" type="submit" formmethod="GET" formaction="/connections/<%= connection.id %>/edit">Update</button>
                         <button type="submit" formmethod="POST" formaction="/connections/<%=connection.id%>?_method=DELETE">Delete</button>
@@ -24,8 +24,10 @@
                     <%});%>
                 <%} else {%>
                     <p class="beside-image"><%=connection.details%><br></p>
+                    <%if (connection.createdAt) {%>
+                        <small>Posted <%= connection.createdAt.toLocaleString()%> by <%= connection.creator.firstName + ' ' + connection.creator.lastName%></small>
+                    <%}%>
                 <%}%>
-
             </div>
             <br>
             <br>

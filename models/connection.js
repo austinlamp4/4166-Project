@@ -18,8 +18,8 @@ const connectionSchema = new Schema(
         host_name: {type: String, required: [true, 'Host Name is required']},
         image: {type: String, required: [true, 'Image Path is required']},
         creator: {type: Schema.Types.ObjectId, ref:'User'}
-    }//,
-    //{timestamps: true}
+    },
+    {timestamps: true}
 );
 
 /*

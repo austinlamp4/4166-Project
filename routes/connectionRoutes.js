@@ -6,7 +6,7 @@ Description: The following code is meant to be the 'router' for the web server, 
 
 const express = require('express');
 const connectionsRouter = express.Router();
-const connectionController = require('../controllers/connectionController')
+const connectionController = require('../controllers/connectionController');
 
 /*The following are all going to be for the connectionController, specifically*/
 
