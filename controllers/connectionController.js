@@ -5,7 +5,6 @@ exports.index = (req, res, next)=> {
     model.find()
     .then(connections => {
         let categories = model.findCategories(connections);
-        console.log(categories);
         res.render('./connection/connections', {connections, categories: categories});
     })
     .catch(err => next(err));
@@ -17,7 +16,7 @@ exports.new = (req, res)=> {
 };
 
 //POST /connections: Creates a new story from the form sent from /connections/new
-exports.create = (req, res)=> {
+exports.create = (req, res, next)=> {
     let connection = new model(req.body);
     connection.creator = req.session.user;
     connection.save()
@@ -40,6 +39,8 @@ exports.show = (req, res, next)=> {
         err.status = 400;
         return next(err);
     }
+
+    console.log(id);
 
     model.findById(id).populate('creator', 'firstName lastName') //This is for populating the creator field down the road.
     .then(connection => {

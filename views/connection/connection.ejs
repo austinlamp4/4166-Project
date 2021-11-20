@@ -4,11 +4,13 @@
         <div class="outer-block">
             <div class="inner"><h2 id="connection-title"><%=connection.name%></h2></div>
             <div class="inner"></div>
-            <%if(user == connection.creator._id) {%>
-                <form>
-                    <button id="button1" type="submit" formmethod="GET" formaction="/connections/<%= connection.id %>/edit">Update</button>
-                    <button type="submit" formmethod="POST" formaction="/connections/<%=connection.id%>?_method=DELETE">Delete</button>
-                </form>
+            <%if(connection.creator) {%>
+                <%if(user == connection.creator.id) {%>
+                    <form>
+                        <button id="button1" type="submit" formmethod="GET" formaction="/connections/<%= connection.id %>/edit">Update</button>
+                        <button type="submit" formmethod="POST" formaction="/connections/<%=connection.id%>?_method=DELETE">Delete</button>
+                    </form>
+                <%}%>
             <%}%>
         </div>
         <img src="<%=connection.image%>" class="security-plus-img" alt="Oops, something went wrong!">
