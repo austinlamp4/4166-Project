@@ -42,3 +42,21 @@ exports.isCreator = (req, res, next) => {
     })
     .catch(err => next(err));
 };
+
+//Check if the user is the author of a particular story
+exports.isNotCreator = (req, res, next) => {
+    let id = req.params.id;
+    connection.findById(id)
+    .then(connection => {
+        if(connection) {
+            if(connection.creator != req.session.user) {
+                return next();
+            } else {
+                let err = new Error('Unauthorized to access the resource');
+                err.status = 401;
+                return next(err);
+            }
+        }
+    })
+    .catch(err => next(err));
+};

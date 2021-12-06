@@ -7,7 +7,7 @@ Description: The following code is meant to be the 'router' for the web server, 
 const express = require('express');
 const connectionsRouter = express.Router();
 const connectionController = require('../controllers/connectionController');
-const {isLoggedIn, isCreator} = require('../middlewares/auth'); 
+const {isLoggedIn, isCreator, isNotCreator} = require('../middlewares/auth'); 
 
 /*The following are all going to be for the connectionController, specifically*/
 
@@ -31,6 +31,8 @@ connectionsRouter.put('/:id', isLoggedIn, isCreator, connectionController.update
 
 //DELETE /connections/:id, delete the story identified by id
 connectionsRouter.delete('/:id', isLoggedIn, isCreator, connectionController.delete);
+
+connectionsRouter.post('/:id/rsvp', isLoggedIn, isNotCreator, connectionController.editRsvp);
 
 /*The following after this point are all going to be the general controller, specifically*/
 

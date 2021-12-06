@@ -10,8 +10,15 @@
                         <button id="button1" type="submit" formmethod="GET" formaction="/connections/<%= connection.id %>/edit">Update</button>
                         <button type="submit" formmethod="POST" formaction="/connections/<%=connection.id%>?_method=DELETE">Delete</button>
                     </form>
+                <%} else if (user && user != connection.creator._id) { %>
+                    <form>
+                        <span>Would you like to attend? RSVP Now!</span>
+                        <button type="submit" formmethod="POST" formaction="/connections/<%= connection.id %>/rsvp" name="rsvp" value="YES">Yes</button>
+                        <button type="submit" formmethod="POST" formaction="/connections/<%=connection.id%>/rsvp" name="rsvp" value="NO">No</button>
+                        <button type="submit" formmethod="POST" formaction="/connections/<%=connection.id%>/rsvp" name="rsvp" value="MAYBE">Maybe</button>
+                    </form>
                 <%}%>
-            <%}%>
+            <%} %>
         </div>
         <img src="<%=connection.image%>" class="security-plus-img" alt="Oops, something went wrong!">
         <div class="connection-details">
