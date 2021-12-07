@@ -8,7 +8,7 @@ const express = require('express');
 const connectionsRouter = express.Router();
 const connectionController = require('../controllers/connectionController');
 const {isLoggedIn, isCreator, isNotCreator} = require('../middlewares/auth'); 
-const {validateID} = require('../middlewares/validator');
+const {validateID, validateRSVP, validateResults} = require('../middlewares/validator');
 
 /*The following are all going to be for the connectionController, specifically*/
 
@@ -19,7 +19,7 @@ connectionsRouter.get('/', connectionController.index); //anyone can view
 connectionsRouter.get('/new', isLoggedIn, connectionController.new);
 
 //POST /connections: Creates a new story from the form sent from /stories/new
-connectionsRouter.post('/', isLoggedIn, connectionController.create);
+connectionsRouter.post('/', isLoggedIn, validateResults, connectionController.create);
 
 //GET /connections/:id : Send details of story identified by id
 connectionsRouter.get('/:id', validateID, connectionController.show); //anyone can view
@@ -28,12 +28,12 @@ connectionsRouter.get('/:id', validateID, connectionController.show); //anyone c
 connectionsRouter.get('/:id/edit', validateID, isLoggedIn, isCreator, connectionController.edit);
 
 //PUT /connections/:id : Update the story identified by id
-connectionsRouter.put('/:id', validateID, isLoggedIn, isCreator, connectionController.update);
+connectionsRouter.put('/:id', validateID, isLoggedIn, isCreator, validateResults, connectionController.update);
 
 //DELETE /connections/:id, delete the story identified by id
 connectionsRouter.delete('/:id', validateID, isLoggedIn, isCreator, connectionController.delete);
 
-connectionsRouter.post('/:id/rsvp', validateID, isLoggedIn, isNotCreator, connectionController.editRsvp);
+connectionsRouter.post('/:id/rsvp', validateID, isLoggedIn, isNotCreator, validateRSVP, validateResults, connectionController.editRsvp);
 
 connectionsRouter.delete('/:id/rsvp', validateID, isLoggedIn, connectionController.deleteRsvp);
 
