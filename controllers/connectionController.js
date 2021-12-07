@@ -37,17 +37,6 @@ exports.show = (req, res, next)=>{
     let id = req.params.id;
     let user = req.session.user;
 
-    if(!id.match(/^[0-9a-fA-F]{24}$/)) {
-        console.log(id);
-        console.log(req.params);
-        console.log(req);
-        let err = new Error('Invalid connection id');
-        err.status = 400;
-        req.flash('error', err.message);
-        return next(err);
-    }
-
-
     Promise.all([model.findById(id).populate('creator', 'firstName lastName'), rsvpModel.count({connection:id, rsvp:"YES"})])
     .then(results =>{
         const [connection, rsvps] = results;
@@ -65,11 +54,6 @@ exports.show = (req, res, next)=>{
 //GET /connections/:id/edit: send HTML form for editing an existing story with a specific id
 exports.edit = (req, res, next)=> {
     let id = req.params.id;
-    if(!id.match(/^[0-9a-fA-F]{24}$/)) { //Regular expression to ensure 0-9, a-z, or A-Z and 24 digits
-        let err = new Error("Invalid story id");
-        err.status = 400;
-        return next(err);
-    }
     model.findById(id)
     .then(connection => {
         if(connection) {
@@ -88,12 +72,6 @@ exports.update = (req, res, next)=> {
     let connection = req.body;
     let id = req.params.id;
 
-    if(!id.match(/^[0-9a-fA-F]{24}$/)) { //Regular expression to ensure 0-9, a-z, or A-Z and 24 digits
-        let err = new Error("Invalid story id");
-        err.status = 400;
-        return next(err);
-    }
-
     model.findByIdAndUpdate(id, connection, {useFindAndModify: false, runValidators: true})
     .then(connection => {
         if(connection) {
@@ -110,11 +88,7 @@ exports.update = (req, res, next)=> {
 //DELETE /connections/:id, delete the story identified by id
 exports.delete = (req, res, next)=> {
     let id = req.params.id;
-    if(!id.match(/^[0-9a-fA-F]{24}$/)) { //Regular expression to ensure 0-9, a-z, or A-Z and 24 digits
-        let err = new Error("Invalid story id");
-        err.status = 400;
-        return next(err);
-    }
+
     model.findByIdAndDelete(id, {useFindAndModify: false})
     .then(connection => {
         if(connection) {

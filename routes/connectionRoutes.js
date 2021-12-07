@@ -8,6 +8,7 @@ const express = require('express');
 const connectionsRouter = express.Router();
 const connectionController = require('../controllers/connectionController');
 const {isLoggedIn, isCreator, isNotCreator} = require('../middlewares/auth'); 
+const {validateID} = require('../middlewares/validator');
 
 /*The following are all going to be for the connectionController, specifically*/
 
@@ -21,20 +22,20 @@ connectionsRouter.get('/new', isLoggedIn, connectionController.new);
 connectionsRouter.post('/', isLoggedIn, connectionController.create);
 
 //GET /connections/:id : Send details of story identified by id
-connectionsRouter.get('/:id', connectionController.show); //anyone can view
+connectionsRouter.get('/:id', validateID, connectionController.show); //anyone can view
 
 //GET /connections/:id/edit: send HTML form for editing an existing story with a specific id
-connectionsRouter.get('/:id/edit', isLoggedIn, isCreator, connectionController.edit);
+connectionsRouter.get('/:id/edit', validateID, isLoggedIn, isCreator, connectionController.edit);
 
 //PUT /connections/:id : Update the story identified by id
-connectionsRouter.put('/:id', isLoggedIn, isCreator, connectionController.update);
+connectionsRouter.put('/:id', validateID, isLoggedIn, isCreator, connectionController.update);
 
 //DELETE /connections/:id, delete the story identified by id
-connectionsRouter.delete('/:id', isLoggedIn, isCreator, connectionController.delete);
+connectionsRouter.delete('/:id', validateID, isLoggedIn, isCreator, connectionController.delete);
 
-connectionsRouter.post('/:id/rsvp', isLoggedIn, isNotCreator, connectionController.editRsvp);
+connectionsRouter.post('/:id/rsvp', validateID, isLoggedIn, isNotCreator, connectionController.editRsvp);
 
-connectionsRouter.delete('/:id/rsvp', isLoggedIn, connectionController.deleteRsvp);
+connectionsRouter.delete('/:id/rsvp', validateID, isLoggedIn, connectionController.deleteRsvp);
 
 /*The following after this point are all going to be the general controller, specifically*/
 
