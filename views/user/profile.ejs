@@ -1,13 +1,31 @@
 <%- include('../partials/header.ejs')%>
 <main class="main-text">
     <h2>Welcome,  <%= user.firstName + " " + user.lastName%></h2>
+    <br>
     <%if(connections.length) {%>
-        <p>All of the stories detailed and linked below have been created by you, nice work!:</p>
+        <h3>All of the stories detailed and linked below have been created by you, nice work!:</h3>
         <%connections.forEach(connection => {%>
             <a href='/connections/<%=connection._id%>' id="profile-links"><p><%=connection.name%></p></a>
         <%})%>
     <%} else { %>
         <p>You have not created any connections.</p>
+    <%}%>
+
+    <br>
+    <br>
+
+    <%if(rsvps.length) {%>
+        <h3>All of the RSVPS detailed are events you have registered (OR NOT) to attend!:</h3>
+        <%rsvps.forEach(rsvp => {%>
+            <%=rsvp.connection.name%> -- STATUS:<%=rsvp.rsvp%> &nbsp; &nbsp;
+            <form class="rsvp-text">
+                <button formmethod="get" formaction="/connections/<%=rsvp.connection._id%>/">Update RSVP</button> &nbsp; &nbsp;
+                <button formmethod="post" formaction="/connections/<%=rsvp.connection._id%>/rsvp?_method=DELETE">Delete RSVP</button> &nbsp; &nbsp;
+            </form>
+            
+        <%})%>
+    <%} else { %>
+        <p>You have not created any RSVPs.</p>
     <%}%>
 </main>
 <%- include('../partials/footer.ejs')%>

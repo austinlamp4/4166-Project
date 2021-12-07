@@ -35,6 +35,7 @@ exports.create = (req, res, next)=> {
 //GET /connections/:id : Send details of story identified by id
 exports.show = (req, res, next)=>{
     let id = req.params.id;
+    let user = req.session.user;
 
     if(!id.match(/^[0-9a-fA-F]{24}$/)) {
         console.log(id);
@@ -47,10 +48,11 @@ exports.show = (req, res, next)=>{
     }
 
 
-    model.findById(id).populate('creator', 'firstName lastName')
-    .then(connection=>{
+    Promise.all([model.findById(id).populate('creator', 'firstName lastName'), rsvpModel.count({connection:id, rsvp:"YES"})])
+    .then(results =>{
+        const [connection, rsvps] = results;
         if(connection) {
-            return res.render('./connection/connection', {connection});
+            return res.render('./connection/connection', {connection, user, rsvps});
         } else {
             let err = new Error('Cannot find a connection with id ' + id);
             err.status = 404;
@@ -163,4 +165,20 @@ exports.editRsvp = (req, res, next) => {
             });
         }
     })
+}
+
+exports.deleteRsvp = (req, res, next) => {
+    let id = req.params.id;
+    rsvpModel.findOneAndDelete({connection:id, user:req.session.user})
+    .then(rsvp => {
+        req.flash('success', 'Successfully Deleted RSVP');
+        res.redirect('/users/profile');
+    })
+    .catch(err => {
+        if (err.name === 'ValidationError') {
+            req.flash('error', err.message);
+            return res.redirect('/back');
+        }
+        next(err);
+    });
 }

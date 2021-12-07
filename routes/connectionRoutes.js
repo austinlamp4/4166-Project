@@ -34,6 +34,8 @@ connectionsRouter.delete('/:id', isLoggedIn, isCreator, connectionController.del
 
 connectionsRouter.post('/:id/rsvp', isLoggedIn, isNotCreator, connectionController.editRsvp);
 
+connectionsRouter.delete('/:id/rsvp', isLoggedIn, connectionController.deleteRsvp);
+
 /*The following after this point are all going to be the general controller, specifically*/
 
 

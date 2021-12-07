@@ -218,3 +218,15 @@ footer span {
     text-align: center;
     font-size: large;
 }
+
+.rsvp-buttons { 
+    text-decoration: none; 
+    color: black; 
+    text-decoration: underline; 
+}
+
+.rsvp-text {
+    position: relative;
+    display: inline-flex;
+}
+

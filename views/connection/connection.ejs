@@ -11,6 +11,7 @@
                         <button type="submit" formmethod="POST" formaction="/connections/<%=connection.id%>?_method=DELETE">Delete</button>
                     </form>
                 <%} else if (user && user != connection.creator._id) { %>
+                    <span><%=rsvps%> people are currently attending, currently!</span>
                     <form>
                         <span>Would you like to attend? RSVP Now!</span>
                         <button type="submit" formmethod="POST" formaction="/connections/<%= connection.id %>/rsvp" name="rsvp" value="YES">Yes</button>
