@@ -14,6 +14,12 @@ exports.new = (req, res) => {
 //POST Create a new user
 exports.create = (req, res, next) => {
     let user = new User(req.body);
+
+    //Ensures email stored in database will always match regardless of case sensitivity. See exports.login for further logic.
+    if(user.email) {
+        user.email = user.email.toLowerCase();
+    }
+
     user.save()
     .then(() => res.redirect('/users/login')) //this is sending us to login
     .catch(err => {
@@ -57,10 +63,12 @@ exports.logout = (req, res, next) => {
     });
 };
 
-//process login requests
-exports.logon = (req, res, next) => {//if you send a post request to /login
-    //Authenticate user's login request
+//process login requests (POST of login)
+exports.logon = (req, res, next) => {
     let email = req.body.email;
+    if (email) {
+        email = email.toLowerCase; //no case sensitivty for email
+    }
     let password = req.body.password;
 
     User.findOne({email: email})
