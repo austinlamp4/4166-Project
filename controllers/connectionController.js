@@ -19,6 +19,7 @@ exports.new = (req, res)=> {
 //POST /connections: Creates a new story from the form sent from /connections/new
 exports.create = (req, res, next)=> {
     let connection = new model(req.body);
+
     connection.creator = req.session.user;
     connection.save()
     .then((connection) => {
@@ -54,6 +55,7 @@ exports.show = (req, res, next)=>{
 //GET /connections/:id/edit: send HTML form for editing an existing story with a specific id
 exports.edit = (req, res, next)=> {
     let id = req.params.id;
+
     model.findById(id)
     .then(connection => {
         if(connection) {
@@ -89,7 +91,7 @@ exports.update = (req, res, next)=> {
 exports.delete = (req, res, next)=> {
     let id = req.params.id;
 
-    model.findByIdAndDelete(id, {useFindAndModify: false})
+    Promise.all([model.findByIdAndDelete(id, {useFindAndModify: false}), rsvpModel.deleteMany({connection:id})])
     .then(connection => {
         if(connection) {
             res.redirect('/connections');
@@ -105,7 +107,7 @@ exports.delete = (req, res, next)=> {
 exports.editRsvp = (req, res, next) => {
     console.log(req.body.rsvp);
     let id = req.params.id;
-    rsvpModel.findOne({connection:id}).then(rsvp => {
+    rsvpModel.findOne({connection:id, user:req.session.user}).then(rsvp => {
         if(rsvp) {
             rsvpModel.findByIdAndUpdate(rsvp._id, {rsvp:req.body.rsvp}, {useFindAndModify: false, runValidators: true})
             .then(rsvp => {
