@@ -46,7 +46,7 @@ Author: Austin Lamp
 Date: 12/07/21
 Description: Use express validation framework to validate input on login page in an attempt to prevent any malicious input from the user.
 */
-exports.validLogIn = [
+exports.validateLogIn = [
     body('email', 'Email must be a valid email address').notEmpty().trim().escape().normalizeEmail(),  
     body('password', 'Password must be at least 8 characters in length, and at most 64 characters in length').isLength({min: 8, max: 64})    
 ];
